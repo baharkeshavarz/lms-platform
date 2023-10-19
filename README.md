@@ -14,7 +14,7 @@ Key Features:
 - Teacher mode
 - Create new Courses
 - Create new Chapters
-- Easily reorder chapter position with drag n’ drop
+- Easily reorder chapter position with drag n’ drop (@hello-pangea/dnd)
 - Upload thumbnails, attachments and videos using UploadThing
 - Video processing using Mux
 - HLS Video player using Mux

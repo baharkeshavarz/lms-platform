@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button'
 import { Chapter, Course } from '@prisma/client'
-import { PlusCircle } from 'lucide-react'
+import { Loader2, PlusCircle } from 'lucide-react'
 import React, { useState } from 'react'
 import * as z from "zod";
 import { useForm } from 'react-hook-form'
@@ -18,6 +18,8 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
+import { ChaptersList } from './chapters-list'
+import { ChapterItem } from '@/types'
 
 interface ChaptersFormProps {
     initialData: Course & { chapters: Chapter[] },
@@ -59,10 +61,35 @@ export const ChaptersForm = ({
         toast.error("Something went wrong");
       }
   }
+
+  const onReorder = async (updateData: ChapterItem[]) => {
+    try {
+      setIsUpdating(true)
+      await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+          list: updateData
+      })
+      toast.success("Your chapters have updated successfully!")
+      setTimeout(() => {
+        setIsUpdating(false)
+      }, 3000)
+   
+      router.refresh();
+    } catch (error) {
+      toast.error("Something went wrong")
+      setIsUpdating(false)
+    }
+  }
+
   return (
-    <div className="mt-6 bg-slate-100 rounded-md p-4">
+    <div className="mt-6 bg-slate-100 rounded-md p-4 relative">
+          {isUpdating  && (
+                <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 flex items-center justify-center rounded-md z-50">
+                     <Loader2 className="w-6 h-6 animate-spin text-sky-700"/>
+                </div>
+           )}
+
          <div className="flex justify-between items-center">
-             Chapter Title
+             Course Chapters
              <Button
                   variant="ghost"
                   onClick={toggleCreating}
@@ -115,8 +142,12 @@ export const ChaptersForm = ({
              <p className={cn("text-sm pt-4",
                     !initialData.chapters.length && "text-slate-500 italic"
                )}>
-              {!initialData.chapters.length && "No Chapters"}
-              {!initialData.chapters.length && "list"}
+              {!initialData.chapters.length && "No Chapters"} 
+              <ChaptersList
+                 onEdit={() => {}}
+                 onReorder= {onReorder}
+                 items={initialData.chapters || []}
+              />
             </p>
          )}
 
