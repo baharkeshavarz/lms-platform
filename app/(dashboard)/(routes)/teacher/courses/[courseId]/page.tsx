@@ -10,6 +10,7 @@ import { ImageForm } from './image-form'
 import { CategoryForm } from './category-form'
 import { PriceForm } from './price-form'
 import { AttachmentForm } from './attachment-form'
+import { ChaptersForm } from './chapters-form'
 
 const CourseIdPage = async ({ 
       params 
@@ -63,12 +64,12 @@ const CourseIdPage = async ({
     course.price,
     course.categoryId,
     course.description,
+    course.chapters.some(chapter => chapter.isPublished)
   ];
- 
+
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `(${completedFields}/${totalFields})`;
-
   return (
     <div className="p-6">
         <div className="flex items-center justify-between">
@@ -122,9 +123,10 @@ const CourseIdPage = async ({
                           Course Chapters
                       </h2>
                     </div>
-                    <div>
-                      Todos: Chapters
-                    </div>
+                    <ChaptersForm 
+                       initialData={course}
+                       courseId={course.id}
+                      />
                </div>
 
               <div>
