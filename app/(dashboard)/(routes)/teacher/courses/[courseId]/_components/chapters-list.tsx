@@ -1,4 +1,3 @@
-"use client"
 import { Chapter } from '@prisma/client'
 import { useEffect, useState } from 'react'
 import {
@@ -40,17 +39,20 @@ export const ChaptersList = ({
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
-
-    const items = Array.from(chapters)
+    //result.source.index: element that is moving now
+    //result.destination.index: the final place that moving elemet should go
+    // First: we find the element and remove it from array
+    // Then, we add it after the destination
+    const items = chapters;
     const [reorderdItem] = items.splice(result.source.index, 1)
     items.splice(result.destination.index, 0, reorderdItem)
+    setChapters(items)
 
+    // Here we just find the part that has changed(not all the array)
     const startIndex = Math.min(result.source.index, result.destination.index)
     const endIndex = Math.max(result.source.index, result.destination.index)
     const updatedChapters = items.slice(startIndex, endIndex + 1)
-
-    setChapters(items)
-
+   // We find the position of each element in main array(items) and update it
     const bulkUpdateData = updatedChapters.map((chapter) => ({
         id: chapter.id,
         position: items.findIndex(item => item.id === chapter.id)

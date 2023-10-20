@@ -4,14 +4,13 @@ import { auth } from '@clerk/nextjs'
 import { CircleDollarSign, File, LayoutDashboard, ListChecks } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
-
-import { TitleForm } from './_components/title-form'
-import { DescriptionForm } from './_components/description-form'
-import { ImageForm } from './_components/image-form'
-import { CategoryForm } from './_components/category-form'
-import { PriceForm } from './_components/price-form'
-import { AttachmentForm } from './_components/attachment-form'
-import { ChaptersForm } from './_components/chapters-form'
+import { TitleForm } from './title-form'
+import { DescriptionForm } from './description-form'
+import { ImageForm } from './image-form'
+import { CategoryForm } from './category-form'
+import { PriceForm } from './price-form'
+import { AttachmentForm } from './attachment-form'
+import { ChaptersForm } from './chapters-form'
 
 const CourseIdPage = async ({ 
       params 
@@ -91,7 +90,7 @@ const CourseIdPage = async ({
                 <h2 className="text-xl">
                     Customize your course
                 </h2>
-               </div>
+              </div>
               <TitleForm 
                  initialData={course}
                  courseId={course.id}

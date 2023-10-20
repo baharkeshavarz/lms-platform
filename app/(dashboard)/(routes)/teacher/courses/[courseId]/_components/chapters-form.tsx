@@ -1,4 +1,5 @@
 "use client"
+
 import { Button } from '@/components/ui/button'
 import { Chapter, Course } from '@prisma/client'
 import { Loader2, PlusCircle } from 'lucide-react'
@@ -80,6 +81,10 @@ export const ChaptersForm = ({
     }
   }
 
+  const onEdit = (id: string) => {
+     router.push(`/teacher/courses/${courseId}/chapters/${id}`)
+  }
+
   return (
     <div className="mt-6 bg-slate-100 rounded-md p-4 relative">
           {isUpdating  && (
@@ -144,7 +149,7 @@ export const ChaptersForm = ({
                )}>
               {!initialData.chapters.length && "No Chapters"} 
               <ChaptersList
-                 onEdit={() => {}}
+                 onEdit={onEdit}
                  onReorder= {onReorder}
                  items={initialData.chapters || []}
               />
