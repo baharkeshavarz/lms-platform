@@ -60,7 +60,7 @@ export const ChapterTitleForm = ({
   return (
     <div className="mt-6 bg-slate-100 rounded-md p-4">
          <div className="flex justify-between items-center">
-             Course Title
+             Chapter Title
              <Button
                   variant="ghost"
                   onClick={toggleEdit}
