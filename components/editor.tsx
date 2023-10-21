@@ -1,5 +1,3 @@
-"use client"
-
 import dynamic from "next/dynamic"
 import { useMemo } from "react";
 import 'react-quill/dist/quill.snow.css';
@@ -15,6 +13,7 @@ export const Editor = ({
 }: EditorProps) => {
     // we want to prevent the server-side rendering to avoid the hydration error
     const ReactQuill = useMemo(() => dynamic(() => import("react-quill"), { ssr: false}), []);
+ 
     return (
         <div className="bg-white">
             <ReactQuill
