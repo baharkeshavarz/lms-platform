@@ -8,6 +8,89 @@ const { Video } = new Mux(
   process.env.MUX_TOKEN_SECRET!,
 )
 
+export async function DELETE(
+   req: Request,
+   { params} : { params: {courseId: string, chapterId: string} }
+) {
+  try {
+    const { userId } = auth();
+    if (!userId) {
+       return new NextResponse("Unauthorized", { status: 401 })
+    }
+
+    const courseOwner = await db.course.findUnique({
+      where: {
+          id: params.courseId,
+          userId
+      }
+   })
+   if (!courseOwner) {
+     return new NextResponse("Unauthorized", { status: 401 })
+   }
+
+   // Delete the chapter
+   const chapter = await db.chapter.findUnique({
+     where: {
+       id: params.chapterId,
+       courseId: params.courseId,
+     }
+   })
+
+   if (!chapter) {
+     return new NextResponse("Chapter Not Found", { status: 404 })
+   }
+
+   // clean-up the vidio
+    if(chapter.videoUrl) {
+      const existingMuxData = await db.muxData.findFirst({
+        where: {
+          chapterId: params.chapterId
+        }
+      })
+ 
+      // In case that user changes the video(clean-up)
+      if(existingMuxData) {
+        await Video.Assets.del(existingMuxData.assetId)
+        await db.muxData.delete({
+            where: {
+               id: existingMuxData.id
+            }
+          });
+      }
+    }
+
+    // delete the chapter
+    const deletedChapte = await db.chapter.delete({
+       where: {
+         id: params.chapterId,
+       }
+    })
+
+    // check if the course can be published or not?
+    const publishedChaptersInCourse = await db.chapter.findMany({
+      where: {
+         courseId: params.courseId,
+         isPublished: true,
+      }
+    })
+     
+    if(!publishedChaptersInCourse.length) {
+        await db.course.update({
+          where: {
+            id: params.courseId,
+          },
+          data: {
+             isPublished: false,
+          }
+      })
+    }
+   return NextResponse.json(deletedChapte)
+  } catch (error) {
+    console.log("[CHAPTER_ID_DELETE]", error);
+    return new NextResponse("Internal Error", {status: 500})
+  }
+}
+
 export async function PATCH(
     req: Request,
     { params }: {
@@ -58,7 +141,7 @@ export async function PATCH(
          if(existingMuxData) {
            await Video.Assets.del(existingMuxData.assetId)
            await db.muxData.delete({
-              where:{
+              where: {
                 id: existingMuxData.id
               }
             });

@@ -9,6 +9,8 @@ import { ChapterTitleForm } from './_components/chapter-title-form';
 import { ChapterDescriptionForm } from './_components/chapter-description-form';
 import { ChapterAccessForm } from './_components/chapter-access-form';
 import { ChapterVideoForm } from './_components/chapter-video-form';
+import Banner from '@/components/banner';
+import ChapterActions from './_components/chapter-actions';
 
 const ChpterPageID = async({
               params
@@ -43,9 +45,17 @@ const ChpterPageID = async({
   const totalFields = requiredFields.length;
   const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `${completedFields}/${totalFields}`
+  const isCompleted = requiredFields.every(Boolean);
 
   return (
-    <div className="p-6">
+     <>
+       {!chapter.isPublished && (
+          <Banner
+             variant="warning"
+             label="This chapter is uppublished. It will not be visible in the course."
+            />
+       )}
+      <div className="p-6">
          <div className="flex items-center w-full">
              <Link
                   href={`/teacher/courses/${params.courseId}`}
@@ -54,9 +64,6 @@ const ChpterPageID = async({
                  <ArrowLeft className="w-4 h-4 mr-2"/>
                  Back to course setup
              </Link>
-
-           
-
          </div>
 
          <div className="flex items-center justify-between w-full">
@@ -68,6 +75,12 @@ const ChpterPageID = async({
                  Complete all fields {completionText}
              </span>
            </div>
+           <ChapterActions 
+                disabled={!isCompleted}
+                courseId={params.courseId}
+                chapterId={params.chapterId}
+                isPublished={chapter.isPublished}
+           />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
@@ -115,7 +128,8 @@ const ChpterPageID = async({
                />
            </div>
         </div>
-     </div>
+       </div>
+    </>
   )
 }
 
