@@ -8,8 +8,8 @@ import * as z from "zod";
 import toast from 'react-hot-toast'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { FileUpload } from '@/components/file-upload'
+import MuxPlayer from "@mux/mux-player-react"
 
 interface ChapterVideoFormProps {
     initialData: Chapter & {muxData: MuxData | null},
@@ -77,7 +77,9 @@ export const ChapterVideoForm = ({
                     </div>
                  ) : (
                       <div className="relative aspect-video mt-2">
-                        Video uploaded!
+                         <MuxPlayer
+                             playbackId={initialData?.muxData?.playbackId || ""}
+                          />
                       </div>
                   )
           )}

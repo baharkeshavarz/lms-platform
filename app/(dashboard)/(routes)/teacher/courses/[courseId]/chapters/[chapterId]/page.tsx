@@ -108,7 +108,6 @@ const ChpterPageID = async({
                     Add a video
                 </h2>
                </div>
-
                <ChapterVideoForm
                    initialData={chapter}
                    courseId={params.courseId}
