@@ -74,12 +74,12 @@ const CourseIdPage = async ({
   const completedFields = requiredFields.filter(Boolean).length;
   const completionText = `(${completedFields}/${totalFields})`;
   const isComplete = requiredFields.every(Boolean);
-
   return (
     <>
       {!course.isPublished && (
          <Banner
             label="This course is not published. It will not be visible to the students."
+            variant="warning"
          />
       )}
       <div className="p-6">
@@ -93,7 +93,7 @@ const CourseIdPage = async ({
               </span>
             </div>
             <Actions
-               disabled={isComplete}
+               disabled={!isComplete}
                courseId={course.id}
                isPublished={course.isPublished}
              />

@@ -31,8 +31,8 @@ export async function PATCH(
       const chapter = await db.chapter.findUnique({
         where: {
             id: params.chapterId,
-            courseId: params.chapterId,
-        }
+            courseId: params.courseId,
+           }
         })
      
       const muxData = await db.muxData.findUnique({
@@ -41,6 +41,7 @@ export async function PATCH(
         }
       })
 
+      console.log(chapter,muxData)
       if (!chapter || !muxData || !chapter.title || !chapter.description  || !chapter.videoUrl) {
         return new NextResponse("Missing required Fields!", { status: 400 })
       }
