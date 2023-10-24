@@ -1,8 +1,16 @@
+import { getCategories } from '@/actions/getCategories';
 import React from 'react'
+import Categories from './_components/Categories';
 
-const Search = () => {
+const Search = async () => {
+  const categories = await getCategories();
+  
   return (
-    <div>Search</div>
+    <div className="p-6">
+       <Categories 
+           items={categories}
+        />
+    </div>
   )
 }
 
