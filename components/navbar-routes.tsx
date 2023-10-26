@@ -6,15 +6,24 @@ import { usePathname } from "next/navigation"
 import { LogOut }  from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from 'next/link';
+import { SearchInput } from './search-input';
 
 const NavbarRoutes = () => {
   const pathname = usePathname();
 
   const isTeactherPage = pathname.startsWith("/teacher");
   const isPlayerPage = pathname.includes("/chapter")
+  const isSearchPage = pathname === "/search"
   
-    return (
-    <div className="ml-auto flex items-center gap-x-2">
+  return (
+      <>
+        {isSearchPage && (
+           <div className="hidden md:block">
+              <SearchInput/>
+           </div>
+        )}
+      
+         <div className="ml-auto flex items-center gap-x-2">
         { (isPlayerPage || isTeactherPage) ? (
             <Link href="/">
               <Button>
@@ -30,7 +39,8 @@ const NavbarRoutes = () => {
            </Link>
          )}
         <UserButton afterSignOutUrl="/" />
-    </div>
+        </div>
+      </>
   )
 }
 
