@@ -1,6 +1,6 @@
 import { getCategories } from '@/actions/getCategories';
 import React from 'react'
-import Categories from './_components/Categories';
+import Categories from './_components/categories';
 
 const Search = async () => {
   const categories = await getCategories();

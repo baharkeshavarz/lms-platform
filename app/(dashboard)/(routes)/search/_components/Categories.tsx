@@ -12,7 +12,7 @@ import {
       FcSalesPerformance,
       FcSportsMode 
     } from "react-icons/fc"
-import CategoryItem from './CategoryItem';
+import CategoryItem from './category-item';
 
 
 interface CategoriesProps {
