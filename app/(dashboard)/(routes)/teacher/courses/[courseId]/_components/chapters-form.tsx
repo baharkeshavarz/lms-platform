@@ -20,7 +20,7 @@ import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Input } from '@/components/ui/input'
 import { ChaptersList } from './chapters-list'
-import { ChapterItem } from '@/types'
+import { ChapterItem } from '@/types/chapter'
 
 interface ChaptersFormProps {
     initialData: Course & { chapters: Chapter[] },

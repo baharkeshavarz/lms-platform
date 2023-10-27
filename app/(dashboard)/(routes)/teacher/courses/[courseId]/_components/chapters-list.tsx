@@ -9,7 +9,7 @@ import {
 import { cn } from '@/lib/utils'
 import { Grip, Pencil } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { ChapterItem } from '@/types'
+import { ChapterItem } from '@/types/chapter'
 
 interface ChaptersListProps{
     onEdit: (id: string) => void,
