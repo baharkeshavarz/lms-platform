@@ -5,6 +5,7 @@ import { SearchInput } from '@/components/search-input';
 import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import { getCourses } from '@/actions/get-courses';
+import CoursesList from '@/components/courses-list';
 
 interface SearchProps {
   searchParams: {
@@ -28,10 +29,11 @@ const Search = async ({ searchParams } : SearchProps) => {
       <div className="p-6 md:hidden block">
         <SearchInput/>
       </div>
-     <div className="p-6">
-       <Categories 
-           items={categories}
+     <div className="p-6 space-y-5">
+        <Categories 
+            items={categories}
         />
+        <CoursesList items={courses}/>
     </div>
     </>
   )

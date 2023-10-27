@@ -45,7 +45,7 @@ export const ChapterVideoForm = ({
   return (
     <div className="mt-6 bg-slate-100 rounded-md p-4">
          <div className="flex justify-between items-center">
-             Course Image
+             Course Video
              <Button
                   variant="ghost"
                   onClick={toggleEdit}
