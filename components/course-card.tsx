@@ -52,7 +52,7 @@ const CourseCard = ({
 
             {progress ? (
                   <div>
-                     "progress"
+                     progress
                    </div>
                ) : (
                  <p className="py-2 text-md md:text-sm text-slate-700 font-medium">

@@ -16,6 +16,8 @@ const config: Config = withUt({
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("./named-colors")
+  ],
 })
 export default config
