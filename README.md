@@ -1,7 +1,6 @@
 # An LMS Platform: Next.js 13,  React, Stripe, Mux, Prisma, Tailwind, MySQL
 
-![lms](https://github.com/AntonioErdeljac/next13-lms-platform/assets/23248726/fa077fca-bb74-419a-84de-54ac103bb026)
-
+!["lms"](/public/preview.jpg)
 
 This is a repository for Build an LMS Platform: Next.js 13,  React, Stripe, Mux, Prisma, Tailwind, MySQL
 
