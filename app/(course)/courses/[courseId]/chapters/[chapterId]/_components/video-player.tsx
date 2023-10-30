@@ -1,9 +1,13 @@
 "use client"
 
+import { useConfettiStore } from '@/hooks/use-confetti-store';
 import { cn } from '@/lib/utils'
 import MuxPlayer from "@mux/mux-player-react";
+import axios from 'axios';
 import { Loader2, Lock } from 'lucide-react'
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 
 interface VideoPlayerProps {
     chapterId: string,
@@ -25,7 +29,30 @@ const VideoPlayer = ({
     completedOnEnd,
 }: VideoPlayerProps) => {
   const [isReady, setIsReady] = useState(false)  
+  const confetti = useConfettiStore();
+  const router = useRouter()
 
+  const onEnded = async() => {
+     try {
+        if (completedOnEnd) {
+            axios.put(`/api/courses/${courseId}/chapters/${chapterId}/progress`, {
+                isCompleted: true,
+            })
+
+            if (!nextChapterId) {
+                confetti.onOpen();
+            }
+
+            if (nextChapterId) {
+                router.push(`/courses/${courseId}/chapters/${nextChapterId}`)
+            }
+            toast.success("Progress updated")
+            router.refresh();
+        }
+     } catch (error) {
+        toast.error("Something went wrong")
+     }
+  }
   return (
     <div className="relative aspect-video">
         {!isLocked && !isReady && (
@@ -48,7 +75,7 @@ const VideoPlayer = ({
                 title={title}
                 className={cn(!isReady && "hidden")}
                 onCanPlay={() => setIsReady(true)}
-                onEnded={() => {}}
+                onEnded={onEnded}
                 autoPlay
                 playbackId={playbackId}
             />
