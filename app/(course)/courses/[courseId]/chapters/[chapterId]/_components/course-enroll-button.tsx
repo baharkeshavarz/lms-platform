@@ -1,16 +1,18 @@
+import { Button } from '@/components/ui/button'
+import { formatPrice } from '@/lib/format'
 import React from 'react'
 
 interface CourseEnrollButtonProps {
     courseId: string,
     price: number,
 }
-const CourseEnrollButton = ({
+export const CourseEnrollButton = ({
     courseId,
     price
 }: CourseEnrollButtonProps) => {
   return (
-    <div>CourseEnrollButton</div>
+    <Button className="w-full md:w-auto">
+        Enroll for {formatPrice(price)}
+    </Button>
   )
 }
-
-export default CourseEnrollButton

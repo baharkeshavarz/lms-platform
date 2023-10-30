@@ -4,7 +4,11 @@ import { auth } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 import React from 'react'
 import VideoPlayer from './_components/video-player';
-import CourseEnrollButton from './_components/course-enroll-button';
+import { Separator } from '@/components/ui/separator';
+import { Preview } from "@/components/preview";
+import { CourseEnrollButton } from './_components/course-enroll-button';
+import { ChapterDetail } from './_components/chapter-detail';
+import { File } from 'lucide-react';
 
 const ChapterIdPage = async({ params }: { params: { courseId: string, chapterId: string}}) => {
   const { userId } = auth();
@@ -16,7 +20,7 @@ const ChapterIdPage = async({ params }: { params: { courseId: string, chapterId:
     chapter,
     course,
     muxData,
-    attachments: [],
+    attachments,
     nextChapter,
     userProgress,
     purchase,
@@ -32,7 +36,7 @@ const ChapterIdPage = async({ params }: { params: { courseId: string, chapterId:
 
   const isLocked = !chapter.isFree && !purchase;
   const completedOnEnd = !!purchase && !userProgress?.isCompleted;
-  
+  console.log("attachments", attachments)
   return (
     <div>
        {userProgress?.isCompleted && (
@@ -63,7 +67,7 @@ const ChapterIdPage = async({ params }: { params: { courseId: string, chapterId:
           </div>
           <div className="p-4 flex flex-col md:flex-row items-center justify-between">
              <h2 className="text-2xl font-semibold mb-2">
-               {chapter.title}
+                {chapter.title}
              </h2>
              {purchase ? (
                 <div>purchase</div>
@@ -74,6 +78,28 @@ const ChapterIdPage = async({ params }: { params: { courseId: string, chapterId:
                 />
              )}
           </div>
+          <Separator/>
+          <div>
+             <ChapterDetail chapter={chapter}/>
+          </div>
+          {!!attachments.length && (
+             <>
+               <Separator/>
+               {attachments.map(attachment => (
+                  <a 
+                    href={attachment.url}
+                    key={attachment.id}
+                    target="_blank"
+                    className="flex items-center text-sky-700 rounded-md p-3 bg-sky-200 hover:underline border mt-2"
+                  >
+                    <File/>
+                    <p className="line-clamp-1 text-sm">
+                       {attachment.name}
+                    </p>
+\                  </a>
+                ))}
+             </>
+          )}
        </div>
     </div>
   )

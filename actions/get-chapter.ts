@@ -87,7 +87,7 @@ export async function getChapter({
             chapter,
             course,
             muxData,
-            attachments: [],
+            attachments,
             nextChapter,
             userProgress,
             purchase,
