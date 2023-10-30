@@ -36,7 +36,7 @@ const ChapterIdPage = async({ params }: { params: { courseId: string, chapterId:
 
   const isLocked = !chapter.isFree && !purchase;
   const completedOnEnd = !!purchase && !userProgress?.isCompleted;
-  console.log("attachments", attachments)
+
   return (
     <div>
        {userProgress?.isCompleted && (
